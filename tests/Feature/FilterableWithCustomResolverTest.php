@@ -4,6 +4,7 @@ use Abbasudo\Purity\Tests\App\Models\Post;
 use Abbasudo\Purity\Tests\App\Models\Tag;
 use Abbasudo\Purity\Tests\TestCase;
 use Illuminate\Support\Facades\Route;
+use PHPUnit\Framework\Attributes\Test;
 
 use function PHPUnit\Framework\assertEquals;
 
@@ -35,7 +36,7 @@ class FilterableWithCustomResolverTest extends TestCase
         ]);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_process_a_basic_request_without_any_filter(): void
     {
         $response = $this->getJson('/tags');
@@ -44,7 +45,7 @@ class FilterableWithCustomResolverTest extends TestCase
         $response->assertJsonCount(3);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_process_a_request_without_any_matches(): void
     {
         $response = $this->getJson('/tags?filters[name][$eq]=nothing');
@@ -53,7 +54,7 @@ class FilterableWithCustomResolverTest extends TestCase
         $response->assertJsonCount(0);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_filter_with_a_basic_eq_operator(): void
     {
         $response = $this->getJson('/tags?filters[name][$eq]=laravel');
@@ -62,7 +63,7 @@ class FilterableWithCustomResolverTest extends TestCase
         $response->assertJsonCount(1);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_process_custom_operator1(): void
     {
         $response = $this->getJson('/tags?filters[name][$pure]=true');
@@ -71,7 +72,7 @@ class FilterableWithCustomResolverTest extends TestCase
         $response->assertJsonCount(1); // since we have 1 tag with name 'pure_tag'
     }
 
-    /** @test */
+    #[Test]
     public function it_can_process_with_grouped_filters()
     {
         $post = Post::query()->create(['title' => 'title']);

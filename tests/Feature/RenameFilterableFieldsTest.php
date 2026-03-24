@@ -4,6 +4,7 @@ use Abbasudo\Purity\Tests\App\Models\Book;
 use Abbasudo\Purity\Tests\App\Models\Post;
 use Abbasudo\Purity\Tests\TestCase;
 use Illuminate\Support\Facades\Route;
+use PHPUnit\Framework\Attributes\Test;
 
 use function PHPUnit\Framework\assertEquals;
 
@@ -15,7 +16,7 @@ class RenameFilterableFieldsTest extends TestCase
         assertEquals('title', $post->getField('title'));
     }
 
-    /** @test */
+    #[Test]
     public function it_can_return_relevant_table_column_after_renamed(): void
     {
         $post = new Post();
@@ -24,7 +25,7 @@ class RenameFilterableFieldsTest extends TestCase
         assertEquals('title', $post->getField('post_title'));
     }
 
-    /** @test */
+    #[Test]
     public function it_can_process_without_renamed_fields(): void
     {
         Post::create([
@@ -42,7 +43,7 @@ class RenameFilterableFieldsTest extends TestCase
         $response->assertJsonCount(0);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_process_with_renamed_fields(): void
     {
         $post = new Post();
@@ -66,7 +67,7 @@ class RenameFilterableFieldsTest extends TestCase
         $response->assertJsonCount(1);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_overwrite_rename_filter_fields_in_eloquent_builder(): void
     {
         $post = new Post();
@@ -91,7 +92,7 @@ class RenameFilterableFieldsTest extends TestCase
         $response->assertJsonCount(1);
     }
 
-    /** @test */
+    #[Test]
     public function available_filter_fields_work_with_renamed_filter_fields(): void
     {
         $book = new Book();
@@ -117,7 +118,7 @@ class RenameFilterableFieldsTest extends TestCase
         $response->assertJsonCount(1);
     }
 
-    /** @test */
+    #[Test]
     public function rename_filter_fields_works_when_filter_fields_not_set(): void
     {
         $post = new Post();

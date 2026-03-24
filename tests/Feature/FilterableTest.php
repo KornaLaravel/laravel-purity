@@ -4,6 +4,7 @@ use Abbasudo\Purity\Tests\App\Models\Post;
 use Abbasudo\Purity\Tests\App\Models\Product;
 use Abbasudo\Purity\Tests\TestCase;
 use Illuminate\Support\Facades\Route;
+use PHPUnit\Framework\Attributes\Test;
 
 use function PHPUnit\Framework\assertEquals;
 
@@ -26,7 +27,7 @@ class FilterableTest extends TestCase
         ]);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_process_a_basic_request_without_any_filter(): void
     {
         $response = $this->getJson('/posts');
@@ -35,7 +36,7 @@ class FilterableTest extends TestCase
         $response->assertJsonCount(1);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_process_a_request_without_any_matches(): void
     {
         $response = $this->getJson('/posts?filters[title][$eq]=no matches');
@@ -44,7 +45,7 @@ class FilterableTest extends TestCase
         $response->assertJsonCount(0);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_filter_with_a_basic_eq_operator(): void
     {
         $response = $this->getJson('/posts?filters[title][$eq]=laravel purity is the best');
@@ -53,7 +54,7 @@ class FilterableTest extends TestCase
         $response->assertJsonCount(1);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_process_with_grouped_filters()
     {
         $post = Post::create(['title' => 'title'])
@@ -66,7 +67,7 @@ class FilterableTest extends TestCase
         assertEquals('title', $response->json()[0]['title']);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_filter_by_decimal_values_with_results()
     {
         $product = Product::factory()->create([
@@ -80,7 +81,7 @@ class FilterableTest extends TestCase
         assertEquals($product->id, $response->json()[0]['id']);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_filter_by_decimal_values_without_matches()
     {
         $product = Product::factory()->create([
@@ -92,7 +93,7 @@ class FilterableTest extends TestCase
             ->assertJsonCount(0);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_filter_by_float_values_with_results()
     {
         $product = Product::factory()->create([
@@ -106,7 +107,7 @@ class FilterableTest extends TestCase
         assertEquals($product->id, $response->json()[0]['id']);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_filter_by_float_values_without_matches()
     {
         $product = Product::factory()->create([
@@ -118,7 +119,7 @@ class FilterableTest extends TestCase
             ->assertJsonCount(0);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_filter_by_boolean_values_with_results()
     {
         $product = Product::factory()->create([
@@ -132,7 +133,7 @@ class FilterableTest extends TestCase
         assertEquals($product->id, $response->json()[0]['id']);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_filter_by_timestamp_values_without_matches()
     {
         $product = Product::factory()->create();
@@ -144,7 +145,7 @@ class FilterableTest extends TestCase
             ->assertJsonCount(0);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_filter_by_timestamp_values_with_results()
     {
         $product = Product::factory()->create();
@@ -158,7 +159,7 @@ class FilterableTest extends TestCase
         assertEquals($product->id, $response->json()[0]['id']);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_filter_by_boolean_values_without_matches()
     {
         $product = Product::factory()->create([
@@ -170,7 +171,7 @@ class FilterableTest extends TestCase
             ->assertJsonCount(0);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_filter_with_eqc_operator(): void
     {
         $response = $this->getJson('/posts?filters[title][$eqc]=LARAVEL purity is the best');
@@ -179,7 +180,7 @@ class FilterableTest extends TestCase
         $response->assertJsonCount(0);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_filter_with_ne_operator(): void
     {
         $response = $this->getJson('/posts?filters[title][$ne]=no matches');
@@ -188,7 +189,7 @@ class FilterableTest extends TestCase
         $response->assertJsonCount(1);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_filter_with_lt_operator(): void
     {
         $product = Product::factory()->create([
@@ -200,7 +201,7 @@ class FilterableTest extends TestCase
             ->assertJsonCount(1);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_filter_with_lte_operator(): void
     {
         $product = Product::factory()->create([
@@ -212,7 +213,7 @@ class FilterableTest extends TestCase
             ->assertJsonCount(1);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_filter_with_gt_operator(): void
     {
         $product = Product::factory()->create([
@@ -224,7 +225,7 @@ class FilterableTest extends TestCase
             ->assertJsonCount(1);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_filter_with_gte_operator(): void
     {
         $product = Product::factory()->create([
@@ -236,7 +237,7 @@ class FilterableTest extends TestCase
             ->assertJsonCount(1);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_filter_with_in_operator(): void
     {
         Product::factory()->create([
@@ -256,7 +257,7 @@ class FilterableTest extends TestCase
             ->assertJsonCount(2);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_filter_with_notIn_operator(): void
     {
         $product = Product::factory()->create([
@@ -268,7 +269,7 @@ class FilterableTest extends TestCase
             ->assertJsonCount(1);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_filter_with_contains_operator(): void
     {
         $response = $this->getJson('/posts?filters[title][$contains]=laravel');
@@ -277,7 +278,7 @@ class FilterableTest extends TestCase
         $response->assertJsonCount(1);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_filter_with_notContains_operator(): void
     {
         $response = $this->getJson('/posts?filters[title][$notContains]=complexity');
@@ -286,7 +287,7 @@ class FilterableTest extends TestCase
         $response->assertJsonCount(1);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_filter_with_containsc_operator(): void
     {
         $response = $this->getJson('/posts?filters[title][$containsc]=laravel');
@@ -294,7 +295,7 @@ class FilterableTest extends TestCase
         $response->assertJsonCount(1);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_filter_with_notContainsc_operator(): void
     {
         $response = $this->getJson('/posts?filters[title][$notContainsc]=complexity');
@@ -303,7 +304,7 @@ class FilterableTest extends TestCase
         $response->assertJsonCount(1);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_filter_with_null_operator(): void
     {
         $product = Product::factory()->create([
@@ -315,7 +316,7 @@ class FilterableTest extends TestCase
             ->assertJsonCount(1);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_filter_with_notNull_operator(): void
     {
         $product = Product::factory()->create([
@@ -327,7 +328,7 @@ class FilterableTest extends TestCase
             ->assertJsonCount(1);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_filter_with_between_operator(): void
     {
         $product = Product::factory()->create([
@@ -339,7 +340,7 @@ class FilterableTest extends TestCase
             ->assertJsonCount(1);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_filter_with_notBetween_operator(): void
     {
         $product = Product::factory()->create([
@@ -351,7 +352,7 @@ class FilterableTest extends TestCase
             ->assertJsonCount(1);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_filter_with_startsWith_operator(): void
     {
         $response = $this->getJson('/posts?filters[title][$startsWith]=laravel');
@@ -360,7 +361,7 @@ class FilterableTest extends TestCase
         $response->assertJsonCount(1);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_filter_with_startsWithc_operator(): void
     {
         $response = $this->getJson('/posts?filters[title][$startsWithc]=laravel');
@@ -369,7 +370,7 @@ class FilterableTest extends TestCase
         $response->assertJsonCount(1);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_filter_with_endsWith_operator(): void
     {
         $response = $this->getJson('/posts?filters[title][$endsWith]=best');
@@ -378,7 +379,7 @@ class FilterableTest extends TestCase
         $response->assertJsonCount(1);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_filter_with_endsWithc_operator(): void
     {
         $response = $this->getJson('/posts?filters[title][$endsWithc]=best');
@@ -387,7 +388,7 @@ class FilterableTest extends TestCase
         $response->assertJsonCount(1);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_filter_with_or_operator(): void
     {
         $post1 = Post::create(['title' => 'laravel purity']);
@@ -400,7 +401,7 @@ class FilterableTest extends TestCase
             ->assertJsonCount(2);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_filter_with_and_operator(): void
     {
         $post = Product::factory()->create([
