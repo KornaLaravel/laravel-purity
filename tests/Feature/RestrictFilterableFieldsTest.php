@@ -3,6 +3,7 @@
 use Abbasudo\Purity\Tests\App\Models\Post;
 use Abbasudo\Purity\Tests\TestCase;
 use Illuminate\Support\Facades\Route;
+use PHPUnit\Framework\Attributes\Test;
 
 use function PHPUnit\Framework\assertEquals;
 use function PHPUnit\Framework\assertStringContainsString;
@@ -10,7 +11,7 @@ use function PHPUnit\Framework\assertTrue;
 
 class RestrictFilterableFieldsTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_return_all_available_fields_when_filter_fields_not_defined(): void
     {
         $post = new Post();
@@ -23,7 +24,7 @@ class RestrictFilterableFieldsTest extends TestCase
         }
     }
 
-    /** @test */
+    #[Test]
     public function it_return_all_available_fields_when_filter_fields_defined(): void
     {
         $post = new Post();
@@ -44,7 +45,7 @@ class RestrictFilterableFieldsTest extends TestCase
         ], $availableFields);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_return_restricted_filters_when_defined_inside_filter_fields()
     {
         $post = new Post();
@@ -64,7 +65,7 @@ class RestrictFilterableFieldsTest extends TestCase
         ], $restrictedFilters);
     }
 
-    /** @test */
+    #[Test]
     public function it_gives_priority_to_restricted_filters_property_when_defined_to_return_restricted_filters()
     {
         $post = new Post();
@@ -91,7 +92,7 @@ class RestrictFilterableFieldsTest extends TestCase
         ], $restrictedFilters);
     }
 
-    /** @test */
+    #[Test]
     public function it_return_empty_array_when_no_restricted_property_is_defined()
     {
         $post = new Post();
@@ -107,7 +108,7 @@ class RestrictFilterableFieldsTest extends TestCase
         assertEquals([], $restrictedFilters);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_process_a_request_without_restricted_filters(): void
     {
         Route::get('/posts', function () {
@@ -124,7 +125,7 @@ class RestrictFilterableFieldsTest extends TestCase
         $response->assertJsonCount(0);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_process_when_a_valid_filter_is_applied(): void
     {
         $post = new Post();
@@ -144,7 +145,7 @@ class RestrictFilterableFieldsTest extends TestCase
         $response->assertJsonCount(0);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_avoid_when_invalid_filter_is_applied_in_silent_mode(): void
     {
         $originalSilentMode = $this->app['config']->get('purity.silent');
@@ -170,7 +171,7 @@ class RestrictFilterableFieldsTest extends TestCase
         $this->app['config']->set('purity.silent', $originalSilentMode);
     }
 
-    /** @test */
+    #[Test]
     public function it_throws_error_when_invalid_filter_is_applied_in_non_silent_mode(): void
     {
         $originalSilentMode = $this->app['config']->get('purity.silent');
@@ -199,7 +200,7 @@ class RestrictFilterableFieldsTest extends TestCase
         $this->app['config']->set('purity.silent', $originalSilentMode);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_set_restricted_filters_on_eloquent_builder(): void
     {
         $post = new Post();

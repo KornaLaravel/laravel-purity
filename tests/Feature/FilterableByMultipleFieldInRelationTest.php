@@ -4,6 +4,7 @@ namespace Abbasudo\Purity\Tests\Feature;
 
 use Abbasudo\Purity\Tests\App\Models\Author;
 use Abbasudo\Purity\Tests\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 use function PHPUnit\Framework\assertEquals;
 
@@ -68,7 +69,7 @@ class FilterableByMultipleFieldInRelationTest extends TestCase
         ]);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_filter_by_multiple_fields_in_relation(): void
     {
         $originalSilentMode = $this->app['config']->get('purity.silent');

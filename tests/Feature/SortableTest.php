@@ -7,6 +7,8 @@ use Abbasudo\Purity\Tests\App\Models\Tag;
 use Abbasudo\Purity\Tests\App\Models\User;
 use Abbasudo\Purity\Tests\TestCase;
 use Illuminate\Support\Facades\Route;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 
 use function PHPUnit\Framework\assertEquals;
 use function PHPUnit\Framework\assertTrue;
@@ -29,7 +31,7 @@ class SortableTest extends TestCase
         $this->post = $post;
     }
 
-    /** @test */
+    #[Test]
     public function it_can_sort(): void
     {
         $response = $this->getJson('/posts?sort=title:asc');
@@ -38,7 +40,7 @@ class SortableTest extends TestCase
         $response->assertOk();
     }
 
-    /** @test */
+    #[Test]
     public function it_can_sort_limit_to_certain_fields(): void
     {
         $this->post->sortFields = ['title'];
@@ -50,7 +52,7 @@ class SortableTest extends TestCase
         $response->assertOk();
     }
 
-    /** @test */
+    #[Test]
     public function it_can_sort_with_renamed_fields(): void
     {
         $this->post->sortFields = ['title' => 'post_title'];
@@ -62,11 +64,8 @@ class SortableTest extends TestCase
         $response->assertOk();
     }
 
-    /**
-     *@test
-     *
-     *@dataProvider directionProvider
-     */
+    #[Test]
+    #[DataProvider('directionProvider')]
     public function it_can_sort_null_values_last($direction): void
     {
         config(['purity.null_last' => true]);
@@ -88,11 +87,8 @@ class SortableTest extends TestCase
         }
     }
 
-    /**
-     *@test
-     *
-     *@dataProvider directionProvider
-     */
+    #[Test]
+    #[DataProvider('directionProvider')]
     public function it_can_sort_by_belongs_to_relationship(string $direction)
     {
         $this->truncateAll();
@@ -125,11 +121,8 @@ class SortableTest extends TestCase
         }
     }
 
-    /**
-     *@test
-     *
-     *@dataProvider directionProvider
-     */
+    #[Test]
+    #[DataProvider('directionProvider')]
     public function it_can_sort_by_has_one_relationship(string $direction)
     {
         $this->truncateAll();
@@ -162,11 +155,8 @@ class SortableTest extends TestCase
         }
     }
 
-    /**
-     *@test
-     *
-     *@dataProvider directionProvider
-     */
+    #[Test]
+    #[DataProvider('directionProvider')]
     public function it_can_sort_by_has_many_relationship(string $direction)
     {
         $this->truncateAll();
@@ -199,11 +189,8 @@ class SortableTest extends TestCase
         }
     }
 
-    /**
-     *@test
-     *
-     *@dataProvider directionProvider
-     */
+    #[Test]
+    #[DataProvider('directionProvider')]
     public function it_can_sort_by_belongs_to_many_relationship(string $direction)
     {
         $this->truncateAll();

@@ -5,6 +5,7 @@ use Abbasudo\Purity\Tests\App\Models\Product;
 use Abbasudo\Purity\Tests\App\Models\User;
 use Abbasudo\Purity\Tests\TestCase;
 use Illuminate\Support\Facades\Route;
+use PHPUnit\Framework\Attributes\Test;
 
 class RelationFilterTest extends TestCase
 {
@@ -25,7 +26,7 @@ class RelationFilterTest extends TestCase
         ]);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_filter_by_has_many_relation(): void
     {
         $post = Post::first();
@@ -44,7 +45,7 @@ class RelationFilterTest extends TestCase
         $response->assertJsonCount(1);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_filter_by_belongs_to_relation(): void
     {
         $user = User::create([
@@ -62,7 +63,7 @@ class RelationFilterTest extends TestCase
         $response->assertJsonCount(1);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_filter_by_belongs_to_many_relation(): void
     {
         $post = Post::first();
@@ -77,7 +78,7 @@ class RelationFilterTest extends TestCase
         $response->assertJsonCount(1);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_filter_by_has_one_relation(): void
     {
         $product = Product::factory([
